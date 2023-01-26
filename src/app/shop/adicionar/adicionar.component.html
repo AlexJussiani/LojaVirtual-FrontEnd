@@ -1,0 +1,178 @@
+<div class="container main-container">
+
+  <h3>Adicionar Produto</h3>
+
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <form class="shadow-lg p-3 mb-5 bg-white rounded" enctype="multipart/form-data" (ngSubmit)="adicionarProduto()"
+        [formGroup]="produtoForm">
+        <div class="form-row">
+          <div class="alert alert-danger" *ngIf="errors.length > 0">
+            <h3 id="msgRetorno">Opa! Alguma coisa não deu certo:</h3>
+            <ul>
+              <li *ngFor="let error of errors">{{ error }}</li>
+            </ul>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-5">
+              <label class="control-label">Marca</label>
+              <select class="form-control" id="marcaId" formControlName="marcaId"
+                [ngClass]="{ 'is-invalid': displayMessage.clienteId }">
+                <option *ngFor="let marca of marcas" value="{{ marca.id }}">
+                  {{ marca.nome }}
+                </option>
+              </select>
+              <span class="text-danger" *ngIf="displayMessage.marcaId">
+                <p [innerHTML]="displayMessage.marcaId"></p>
+              </span>
+            </div>
+            <div class="form-group col-md-5">
+              <label class="control-label">Tipo Produto</label>
+              <select class="form-control" id="tipoProdutoId" formControlName="tipoProdutoId"
+                [ngClass]="{ 'is-invalid': displayMessage.clienteId }">
+                <option *ngFor="let tipoProduto of tipoProdutos" value="{{ tipoProduto.id }}">
+                  {{ tipoProduto.nome }}
+                </option>
+              </select>
+              <span class="text-danger" *ngIf="displayMessage.tipoProdutoId">
+                <p [innerHTML]="displayMessage.tipoProdutoId"></p>
+              </span>
+            </div>
+
+            <div class="form-group col-md-2">
+              <label class="control-label">Tamanho</label>
+              <select class="form-control" id="tamanhoId" formControlName="tamanhoId"
+                [ngClass]="{ 'is-invalid': displayMessage.tamanhoId }">
+                <option *ngFor="let tamanho of tamanhos" value="{{ tamanho.id }}">
+                  {{ tamanho.nome }}
+                </option>
+              </select>
+              <span class="text-danger" *ngIf="displayMessage.tamanhoId">
+                <p [innerHTML]="displayMessage.tamanhoId"></p>
+              </span>
+            </div>
+
+            <div class="form-group col-md-9">
+              <label class="control-label">Nome</label>
+              <div>
+                <input class="form-control" id="nome" type="text" placeholder="Nome (requerido)" formControlName="nome"
+                  [ngClass]="{'is-invalid': displayMessage.nome }" />
+                <span class="text-danger" *ngIf="displayMessage.nome">
+                  <p [innerHTML]="displayMessage.nome"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label class="control-label">Cor Principal</label>
+              <select class="form-control" id="corId" formControlName="corId"
+                [ngClass]="{ 'is-invalid': displayMessage.corId }">
+                <option *ngFor="let cor of cores" value="{{ cor.id }}">
+                  {{ cor.nome }}
+                </option>
+              </select>
+              <span class="text-danger" *ngIf="displayMessage.corId">
+                <p [innerHTML]="displayMessage.corId"></p>
+              </span>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label class="control-label">Valor</label>
+              <div>
+                <input class="form-control" id="valorTotal" type="text" placeholder="Valor (requerido)"
+                  formControlName="valorTotal" [ngClass]="{'is-invalid': displayMessage.valorTotal }" />
+                <span class="text-danger" *ngIf="displayMessage.valorTotal">
+                  <p [innerHTML]="displayMessage.valorTotal"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label class="control-label">Valor Desconto</label>
+              <div>
+                <input class="form-control" id="valorDesconto" type="text" placeholder="Valor Desconto (requerido)"
+                  formControlName="valorDesconto" [ngClass]="{'is-invalid': displayMessage.valorDesconto }" />
+                <span class="text-danger" *ngIf="displayMessage.valorDesconto">
+                  <p [innerHTML]="displayMessage.valorDesconto"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label class="control-label">Tipo Desconto</label>
+              <select class="form-control" id="tipoDesconto" formControlName="tipoDesconto"
+                [ngClass]="{ 'is-invalid': displayMessage.tipoDesconto }">
+                <option value=0>Sem desconto</option>
+                <option value=1>Porcentagem</option>
+                <option value=2>Valor Absoluto</option>
+              </select>
+              <span class="text-danger" *ngIf="displayMessage.tipoDesconto">
+                <p [innerHTML]="displayMessage.tipoDesconto"></p>
+              </span>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label class="control-label">Genero</label>
+              <select class="form-control" id="genero" formControlName="genero"
+                [ngClass]="{ 'is-invalid': displayMessage.genero }">
+                <option value=1>Masculino</option>
+                <option value=1>Feminino</option>
+                <option value=2>Menino</option>
+                <option value=3>Menina</option>
+                <option value=1>Bebe Menino</option>
+                <option value=1>Bebe Menina</option>
+              </select>
+              <span class="text-danger" *ngIf="displayMessage.genero">
+                <p [innerHTML]="displayMessage.genero"></p>
+              </span>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Descrição</label>
+            <div>
+              <textarea cols="40" rows="3" maxlength="1000" class="form-control" id="descricao"
+                placeholder="Descrição (requerido)" formControlName="descricao"
+                [ngClass]="{'is-invalid': displayMessage.descricao }"></textarea>
+              <span class="text-danger" *ngIf="displayMessage.descricao">
+                <p [innerHTML]="displayMessage.descricao"></p>
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Nova Imagem</label><br>
+            <img [src]="imagemPreview" style="width: 70px; height: 100px" />
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Imagem do Produto</label>
+
+            <div class="custom-file">
+              <input type="file" accept="image/jpeg,image/png,image/webp" class="custom-file-input" id="imagem"
+                formControlName="imagem" #fileInput (change)="upload(fileInput.files)"
+                [ngClass]="{'is-invalid': displayMessage.imagem }">
+              <label data-browse="Procurar" style="width: 400px" class="custom-file-label"></label>
+              <span class="text-danger" *ngIf="displayMessage.imagem">
+                <p [innerHTML]="displayMessage.imagem"></p>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" id="ativo" formControlName="ativo" name="ativo"
+                value="true"> Ativo?
+            </label>
+          </div>
+
+          <div class="form-group">
+            <input type="submit" value="Adicionar" class="btn btn-primary">&nbsp;
+            <a class="btn btn-info" href="/produtos/listar-todos">Voltar</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,180 @@
+<!-- ============== SECTION PAGETOP ============== -->
+<section class="bg-primary py-5">
+  <div class="container">
+    <h2 class="text-white">Ci Calçados</h2>
+    <ol class="breadcrumb ondark mb-0">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item"><a href="#">Library</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Data</li>
+    </ol>
+  </div> <!-- container //  -->
+</section>
+<!-- ============== SECTION PAGETOP END// ============== -->
+
+<!-- ============== SECTION CONTENT ============== -->
+<section class="padding-y">
+  <div class="container">
+
+    <div class="row">
+      <aside class="col-lg-3">
+
+        <button class="btn btn-outline-secondary mb-3 w-100  d-lg-none" data-bs-toggle="collapse"
+          data-bs-target="#aside_filter">Show filter</button>
+
+        <!-- ===== Card for sidebar filter ===== -->
+        <div id="aside_filter" class="collapse card d-lg-block mb-5">
+
+          <article class="filter-group">
+            <header class="card-header">
+              <a href="#" class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside_brands">
+                <i class="icon-control fa fa-chevron-down"></i> Tipo Produto
+              </a>
+            </header>
+            <div class="collapse show" id="collapse_aside_brands">
+              <div class="card-body">
+                  <div *ngFor="let tipo of tipoProdutos">
+                    <label class="form-check mb-2">
+                      <input class="form-check-input" type="checkbox" value="tipo.id" (change)="getTipoProdutoId($event, tipo.id)">
+                      <span class="form-check-label"> {{tipo.nome}} </span>
+                    </label> <!-- form-check end.// -->
+                </div>
+              </div> <!-- card-body .// -->
+            </div> <!-- collapse.// -->
+          </article>
+
+          <article class="filter-group">
+            <header class="card-header">
+              <a href="#" class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside_brands">
+                <i class="icon-control fa fa-chevron-down"></i> Marcas
+              </a>
+            </header>
+            <div class="collapse show" id="collapse_aside_brands">
+              <div class="card-body">
+                  <div *ngFor="let marca of marcas">
+                    <label class="form-check mb-2">
+                      <input class="form-check-input" type="checkbox" value="marca.id">
+                      <span class="form-check-label"> {{marca.nome}} </span>
+                    </label> <!-- form-check end.// -->
+                </div>
+              </div> <!-- card-body .// -->
+            </div> <!-- collapse.// -->
+          </article>
+
+          <article class="filter-group">
+            <header class="card-header">
+              <a href="#" class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside2">
+                <i class="icon-control fa fa-chevron-down"></i> Preço
+              </a>
+            </header>
+            <div class="collapse show" id="collapse_aside2">
+              <div class="card-body">
+                <input type="range" class="form-range" min="0" max="100">
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <label for="min" class="form-label">Min</label>
+                    <input class="form-control" id="min" placeholder="$0" type="number">
+                  </div> <!-- col end.// -->
+
+                  <div class="col-6">
+                    <label for="max" class="form-label">Max</label>
+                    <input class="form-control" id="max" placeholder="$1,0000" type="number">
+                  </div> <!-- col end.// -->
+                </div> <!-- row end.// -->
+                <button class="btn btn-light w-100" type="button">Aplicar</button>
+              </div> <!-- card-body.// -->
+            </div> <!-- collapse.// -->
+          </article> <!-- filter-group // -->
+
+          <article class="filter-group">
+            <header class="card-header">
+              <a href="#" class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside3">
+                <i class="icon-control fa fa-chevron-down"></i> Tamanho
+              </a>
+            </header>
+            <div class="collapse show" id="collapse_aside3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-3" *ngFor="let tamanho of tamanhos">
+                    <label class="checkbox-btn">
+                      <input type="checkbox" value="tamanho.id">
+                      <span class="btn btn-light"> {{tamanho.nome}} </span>
+                    </label>
+                  </div>
+                </div>
+
+              </div> <!-- card-body.// -->
+            </div> <!-- collapse.// -->
+          </article> <!-- filter-group // -->
+        </div> <!-- card.// -->
+        <!-- ===== Card for sidebar filter .// ===== -->
+
+      </aside> <!-- col .// -->
+      <main class="col-lg-9">
+
+        <header class="d-sm-flex align-items-center border-bottom mb-4 pb-3">
+          <strong class="d-block py-2">{{produtos.length}} Quantidade de Itens </strong>
+          <div class="ms-auto ">
+            <select class="form-select d-inline-block w-auto me-1">
+              <option value="1">Recomendado</option>
+              <option value="0">Maior Valor</option>
+              <option value="2">Menor Valor</option>
+            </select>
+            <div class="btn-group">
+              <a href="#" class="btn btn-light" data-bs-toggle="tooltip" title="List view">
+                <i class="fa fa-bars"></i>
+              </a>
+              <a href="#" class="btn btn-light active" data-bs-toggle="tooltip" title="Grid view">
+                <i class="fa fa-th"></i>
+              </a>
+            </div> <!-- btn-group end.// -->
+          </div>
+        </header>
+
+        <!-- ========= content items ========= -->
+        <div class="row figura">
+          <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let produto of produtos">
+            <figure class="card card-product-grid">
+              <div class="img-wrap">
+                <img src="{{imagens}}{{produto.imagem}}">
+              </div>
+              <figcaption class="info-wrap border-top" style="height: 200px;">
+                <h5>
+                  <div class="price-wrap">
+                    <div *ngIf="produto.tipoDesconto != 0">
+                      <del class="price-old">{{produto.valorTotal | currency: "BRL":"symbol":"1.2-2":"pt" }}</del>
+                    </div>
+                    <div *ngIf="produto.tipoDesconto == 0">
+                      <br>
+                    </div>
+                    <strong class="price">{{produto.valorVenda | currency: "BRL":"symbol":"1.2-2":"pt" }}</strong>
+                  </div>
+                </h5>
+                <p class="title mb-2"> {{produto.descricao}}</p>
+                <a href="https://wa.me/5543984835077?text=Olá! Tenho interesse no produto '{{produto.descricao}}'"
+                  class="btn btn-primary">Falar com vendedor(a)</a>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <hr>
+        <footer class="d-flex mt-4">
+
+          <nav class="ms-3">
+            <ul class="pagination">
+              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <li class="page-item active" aria-current="page">
+                <span class="page-link">2</span>
+              </li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+              </li>
+            </ul>
+          </nav>
+        </footer>
+      </main>
+    </div>
+
+  </div>
+</section>
