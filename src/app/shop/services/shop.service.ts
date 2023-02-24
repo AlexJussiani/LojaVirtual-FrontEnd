@@ -7,6 +7,8 @@ import { Marca } from "../models/marca";
 import { Produto } from "../models/produtos";
 import { Cor } from '../models/cor';
 import { Tamanho } from '../models/tamanho';
+import { Paged } from '../models/paged';
+import { Filtro } from '../models/filtros';
 
 
 @Injectable()
@@ -17,6 +19,24 @@ export class ShopService extends BaseService{
   obterTodos(): Observable<Produto[]>{
     return   this.http
          .get<Produto[]>(`${this.UrlServiceV1}catalogo/produtos`, this.ObterHeaderJson())
+        .pipe(
+          map((obj) => obj),
+          catchError(super.serviceError)
+        );
+  }
+
+  obterTodosPaginado(pageSize: number, pageIndex: number, query?: string): Observable<Paged<Produto>>{
+    return  this.http
+         .get<Paged<Produto>>(`${this.UrlServiceV1}catalogo/paginado?ps=${pageSize}&page=${pageIndex}&q=${query}`, this.ObterHeaderJson())
+        .pipe(
+          map((obj) => obj),
+          catchError(super.serviceError)
+        );
+  }
+
+  obterPorFiltroPaginado(filtro: Filtro[], pageSize: number, pageIndex: number, query?: string): Observable<Paged<Produto>>{
+    return  this.http
+         .post<Paged<Produto>>(`${this.UrlServiceV1}catalogo/filtroPaginado?ps=${pageSize}&page=${pageIndex}&q=${query}`, filtro, this.ObterHeaderJson())
         .pipe(
           map((obj) => obj),
           catchError(super.serviceError)

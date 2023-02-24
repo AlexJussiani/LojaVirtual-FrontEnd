@@ -1,8 +1,10 @@
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { registerLocaleData } from '@angular/common';
 
 import { ToastrModule } from 'ngx-toastr';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import localePt from '@angular/common/locales/pt';
 registerLocaleData(localePt);
@@ -31,8 +33,12 @@ export const httpInterceptorProviders = [
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot(),
-    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      timeOut: 1000
+    }),
+    ModalModule.forRoot(),
+    HttpClientModule
   ],
   providers: [
     httpInterceptorProviders

@@ -1,3 +1,4 @@
+
 import { ShopRoutingModule } from './shop.route';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -6,6 +7,8 @@ import { ShopService } from './services/shop.service';
 import { ShopAppComponent } from './shop.app.component';
 import { AdicionarComponent } from './adicionar/adicionar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -19,7 +22,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     ShopRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule,
+    NgbPaginationModule
+  ],
+  exports: [
+    NgxSpinnerModule,
   ],
   providers:[
     ShopService

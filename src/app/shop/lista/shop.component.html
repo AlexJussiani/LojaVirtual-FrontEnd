@@ -1,19 +1,10 @@
-<!-- ============== SECTION PAGETOP ============== -->
-<section class="bg-primary py-5">
-  <div class="container">
-    <h2 class="text-white">Ci Calçados</h2>
-    <ol class="breadcrumb ondark mb-0">
-      <li class="breadcrumb-item"><a href="#">Home</a></li>
-      <li class="breadcrumb-item"><a href="#">Library</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Data</li>
-    </ol>
-  </div> <!-- container //  -->
-</section>
-<!-- ============== SECTION PAGETOP END// ============== -->
-
 <!-- ============== SECTION CONTENT ============== -->
 <section class="padding-y">
   <div class="container">
+
+    <ngx-spinner bdColor="rgba(0,0,0,0.8)" size="medium" color="#fff" type="timer" [fullScreen]="true">
+      <p style="color: white"> carregando...</p>
+    </ngx-spinner>
 
     <div class="row">
       <aside class="col-lg-3">
@@ -32,11 +23,12 @@
             </header>
             <div class="collapse show" id="collapse_aside_brands">
               <div class="card-body">
-                  <div *ngFor="let tipo of tipoProdutos">
-                    <label class="form-check mb-2">
-                      <input class="form-check-input" type="checkbox" value="tipo.id" (change)="getTipoProdutoId($event, tipo.id)">
-                      <span class="form-check-label"> {{tipo.nome}} </span>
-                    </label> <!-- form-check end.// -->
+                <div *ngFor="let tipo of tipoProdutos">
+                  <label class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" value="tipo.id"
+                      (change)="getTipoProdutoId($event, tipo.id)">
+                    <span class="form-check-label"> {{tipo.nome}} </span>
+                  </label> <!-- form-check end.// -->
                 </div>
               </div> <!-- card-body .// -->
             </div> <!-- collapse.// -->
@@ -50,11 +42,12 @@
             </header>
             <div class="collapse show" id="collapse_aside_brands">
               <div class="card-body">
-                  <div *ngFor="let marca of marcas">
-                    <label class="form-check mb-2">
-                      <input class="form-check-input" type="checkbox" value="marca.id">
-                      <span class="form-check-label"> {{marca.nome}} </span>
-                    </label> <!-- form-check end.// -->
+                <div *ngFor="let marca of marcas">
+                  <label class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" value="marca.id"
+                    (change)="getMarcaId($event, marca.id)">
+                    <span class="form-check-label"> {{marca.nome}} </span>
+                  </label> <!-- form-check end.// -->
                 </div>
               </div> <!-- card-body .// -->
             </div> <!-- collapse.// -->
@@ -112,21 +105,26 @@
       <main class="col-lg-9">
 
         <header class="d-sm-flex align-items-center border-bottom mb-4 pb-3">
-          <strong class="d-block py-2">{{produtos.length}} Quantidade de Itens </strong>
-          <div class="ms-auto ">
+          <div class="col-lg-1">
+            <strong class="d-block py-2">{{produtos.length}} Itens </strong>
+          </div>
+
+          <div class="col-lg-8 col-md-12 col-12">
+            <form action="#" class="">
+              <div class="input-group">
+                <input type="search" class="form-control" style="width:60%" placeholder="Search">
+                <button class="btn btn-primary">
+                  <i class="fa fa-search"></i>
+                </button>
+                </div>
+            </form>
+          </div>
+          <div class="ms-auto col-lg-2 ml-auto">
             <select class="form-select d-inline-block w-auto me-1">
               <option value="1">Recomendado</option>
               <option value="0">Maior Valor</option>
               <option value="2">Menor Valor</option>
             </select>
-            <div class="btn-group">
-              <a href="#" class="btn btn-light" data-bs-toggle="tooltip" title="List view">
-                <i class="fa fa-bars"></i>
-              </a>
-              <a href="#" class="btn btn-light active" data-bs-toggle="tooltip" title="Grid view">
-                <i class="fa fa-th"></i>
-              </a>
-            </div> <!-- btn-group end.// -->
           </div>
         </header>
 
@@ -158,21 +156,12 @@
         </div>
 
         <hr>
-        <footer class="d-flex mt-4">
+        <!-- <ngb-pagination [collectionSize]="paged.totalResults" [(page)]="page" [boundaryLinks]="true" (pageChange)="pageChanged($event)"></ngb-pagination> -->
 
-          <nav class="ms-3">
-            <ul class="pagination">
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item active" aria-current="page">
-                <span class="page-link">2</span>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-              </li>
-            </ul>
-          </nav>
-        </footer>
+        <ngb-pagination (pageChange)="pageChanged($event)" [pageSize]="pageSize" [(page)]="page" [maxSize]="10"
+          [rotate]="true" [collectionSize]="paged.totalResults" [boundaryLinks]="true"></ngb-pagination>
+
+
       </main>
     </div>
 
