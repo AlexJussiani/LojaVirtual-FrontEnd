@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { TipoProduto } from './../models/tipoProduto';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -9,6 +10,8 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Paged } from '../models/paged';
 import { Filtro } from '../models/filtros';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-shop',
@@ -23,7 +26,7 @@ export class ShopComponent implements OnInit {
   filtros: Filtro[] = [];
   tipoProdutos: TipoProduto[];
 
-  query = '';
+  query = new FormControl();
 
   tipoProdutosSelected: string[] = new Array<string>();;
   marcasSelected: string[] = new Array<string>();;
@@ -42,6 +45,17 @@ export class ShopComponent implements OnInit {
   public produtos: Produto[];
 
   ngOnInit(): void {
+    this.query.valueChanges
+    .pipe(
+      map(v =>  v.trim()),
+      filter(v => v.length > 2),
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(v => this.produtosService.obterPorFiltroPaginado(this.filtros,this.pageSize, this.page, v))
+    ).subscribe(page => {
+      this.paged = page, this.produtos = this.paged.list
+    });
+
     this.obterProdutos();
      this.produtosService.obterTamanhos()
     .subscribe({
