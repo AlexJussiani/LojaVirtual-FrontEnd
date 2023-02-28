@@ -11,7 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Paged } from '../models/paged';
 import { Filtro } from '../models/filtros';
 import { FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-shop',
@@ -31,9 +31,11 @@ export class ShopComponent implements OnInit {
   tipoProdutosSelected: string[] = new Array<string>();;
   marcasSelected: string[] = new Array<string>();;
   errors: any[] = []
+  filtroSelecionado : number = 0;
 
+  opcaoItemPorPagina = [6,9,12,15,18];
   public page = 1;
-  public pageSize = 6;
+  public pageSize = 9;
 
   constructor(
     private produtosService: ShopService,
@@ -45,13 +47,14 @@ export class ShopComponent implements OnInit {
   public produtos: Produto[];
 
   ngOnInit(): void {
+    this.query.setValue('')
     this.query.valueChanges
     .pipe(
       map(v =>  v.trim()),
-      filter(v => v.length > 2),
+      //filter(v => v.length > 2),
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap(v => this.produtosService.obterPorFiltroPaginado(this.filtros,this.pageSize, this.page, v))
+      switchMap(v => this.produtosService.obterPorFiltroPaginado(this.filtros,this.pageSize, this.page,this.filtroSelecionado, v))
     ).subscribe(page => {
       this.paged = page, this.produtos = this.paged.list
     });
@@ -83,7 +86,7 @@ export class ShopComponent implements OnInit {
 
   obterProdutosFiltradoPaginado(){
     this.spinner.show();
-    this.produtosService.obterPorFiltroPaginado(this.filtros,this.pageSize, this.page)
+    this.produtosService.obterPorFiltroPaginado(this.filtros,this.pageSize, this.page, this.filtroSelecionado, this.query.value)
     .subscribe({
       next: (page) => {this.paged = page, this.produtos = this.paged.list, this.spinner.hide()} ,
       error: (falha) => {this.processarFalha(falha)},
@@ -130,6 +133,15 @@ export class ShopComponent implements OnInit {
 
   pageChanged(event) {
     this.page = event;
+    this.obterProdutosFiltradoPaginado();
+  }
+
+  ordenarProdutos(e: any){
+    this.filtroSelecionado = e.target.value;
+    this.obterProdutosFiltradoPaginado();
+  }
+
+  changeItemPerPage() {
     this.obterProdutosFiltradoPaginado();
   }
 }

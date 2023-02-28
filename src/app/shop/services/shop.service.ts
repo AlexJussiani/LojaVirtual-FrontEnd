@@ -34,9 +34,9 @@ export class ShopService extends BaseService{
         );
   }
 
-  obterPorFiltroPaginado(filtro: Filtro[], pageSize: number, pageIndex: number, query?: string): Observable<Paged<Produto>>{
+  obterPorFiltroPaginado(filtro: Filtro[], pageSize: number, pageIndex: number, ordenacao?: number, query?: string): Observable<Paged<Produto>>{
     return  this.http
-         .post<Paged<Produto>>(`${this.UrlServiceV1}catalogo/filtroPaginado?ps=${pageSize}&page=${pageIndex}&q=${query}`, filtro, this.ObterHeaderJson())
+         .post<Paged<Produto>>(`${this.UrlServiceV1}catalogo/filtroPaginado?ps=${pageSize}&page=${pageIndex}&ordenacao=${ordenacao}&q=${query}`, filtro, this.ObterHeaderJson())
         .pipe(
           map((obj) => obj),
           catchError(super.serviceError)

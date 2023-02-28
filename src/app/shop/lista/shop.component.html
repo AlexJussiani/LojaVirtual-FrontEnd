@@ -45,7 +45,7 @@
                 <div *ngFor="let marca of marcas">
                   <label class="form-check mb-2">
                     <input class="form-check-input" type="checkbox" value="marca.id"
-                    (change)="getMarcaId($event, marca.id)">
+                      (change)="getMarcaId($event, marca.id)">
                     <span class="form-check-label"> {{marca.nome}} </span>
                   </label> <!-- form-check end.// -->
                 </div>
@@ -116,14 +116,15 @@
                 <button class="btn btn-primary">
                   <i class="fa fa-search"></i>
                 </button>
-                </div>
+              </div>
             </form>
           </div>
           <div class="ms-auto col-lg-2 ml-auto">
-            <select class="form-select d-inline-block w-auto me-1">
-              <option value="1">Recomendado</option>
-              <option value="0">Maior Valor</option>
-              <option value="2">Menor Valor</option>
+            <select class="form-select d-inline-block w-auto me-1" [(ngModel)]="filtroSelecionado"
+              (change)="ordenarProdutos($event)">
+              <option value="0">Recomendado</option>
+              <option value="1">Menor Valor</option>
+              <option value="2">Maior Valor</option>
             </select>
           </div>
         </header>
@@ -157,11 +158,23 @@
 
         <hr>
         <!-- <ngb-pagination [collectionSize]="paged.totalResults" [(page)]="page" [boundaryLinks]="true" (pageChange)="pageChanged($event)"></ngb-pagination> -->
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-6 ">
+            <ngb-pagination (pageChange)="pageChanged($event)" [pageSize]="pageSize" [(page)]="page" [maxSize]="10"
+              [rotate]="true" [collectionSize]="paged.totalResults" [boundaryLinks]="true"></ngb-pagination>
+          </div>
+          <div class=" row col-lg-3 col-md-3 col-sm-3 ml-auto">
+            <div class="col-lg-7 col-md-7 col-sm-7 ml-auto">
+              <label class="select-input ml-auto">Itens Pagina:</label>
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-5">
+              <select class="custom-select custom-select-sm mb-3" [(ngModel)]="pageSize" (change)="changeItemPerPage()">
+                <option *ngFor="let option of opcaoItemPorPagina" [value]="option">{{option}}</option>
+              </select>
+            </div>
+          </div>
 
-        <ngb-pagination (pageChange)="pageChanged($event)" [pageSize]="pageSize" [(page)]="page" [maxSize]="10"
-          [rotate]="true" [collectionSize]="paged.totalResults" [boundaryLinks]="true"></ngb-pagination>
-
-
+        </div>
       </main>
     </div>
 
